@@ -31,7 +31,7 @@ const navigate=useNavigate()
             formData.append("city",city)
             formData.append("state",state)
             if(backendImage){
- formData.append("image",backendImage)
+               formData.append("image",backendImage)
             }
             formData.append("address",address);
             const result=await axios.post(`${serverUrl}/api/shop/editshop`,formData,{withCredentials:true})

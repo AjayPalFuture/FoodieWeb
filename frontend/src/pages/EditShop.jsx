@@ -36,6 +36,7 @@ const navigate=useNavigate()
             formData.append("address",address);
             const result=await axios.post(`${serverUrl}/api/shop/editshop`,formData,{withCredentials:true})
             dispatch(setShop(result.data))
+            navigate("/")
             console.log(result.data)
         } catch (error) {
             console.log(error)

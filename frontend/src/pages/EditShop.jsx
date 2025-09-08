@@ -128,7 +128,7 @@ const navigate=useNavigate()
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-[#ff4d2d] text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200"
+                        className="w-full bg-[#ff4d2d] text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200" 
                     >
                         save
                     </button>

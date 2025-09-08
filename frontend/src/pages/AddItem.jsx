@@ -7,13 +7,13 @@ import { serverUrl } from "../App";
 import { useDispatch } from "react-redux";
 import { setShop } from "../redux/userSlice";
 export default function AddItem() {
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     price: "",
-//     category: "",
-//     image: "",
-//     veg: "true",
-//   });
+  const [formData, setFormData] = useState({
+    name: "",
+    price: "",
+    category: "",
+    image: "",
+    veg: "true",
+  });
 const [name, setName] = useState("")
     const [price, setPrice] = useState(0)
     const [category,setCategory] = useState("")

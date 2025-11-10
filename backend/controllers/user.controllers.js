@@ -17,27 +17,87 @@ export const getCurrentUser=async (req,res)=>{
 }
 
 // controllers/location.controller.j
+// export const updateUserLocation = async (req, res) => {
+//   try {
+//     const { latitude, longitude } = req.body;
+//     const userId = req.userId; // JWT middleware se
+
+//     if (typeof latitude !== "number" || typeof longitude !== "number") {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid coordinates"
+//       });
+//     }
+
+//     // DB me user ki location update karo
+//     await User.findByIdAndUpdate(userId, {
+//       location: {
+//         type: "Point",
+//         coordinates: [longitude, latitude]
+//       }
+//     },{new:true});
+
+//     // Socket se broadcast karo (agar real-time chahiye)
+//     const io = req.app.get("io");
+//     if (io) {
+//       io.emit("user:location:update", {
+//         userId,
+//         latitude,
+//         longitude,
+//         at: new Date()
+//       });
+//     }
+
+//     return res.json({
+//       success: true,
+//       message: "Location updated"
+//     });
+//   } catch (err) {
+//     console.error("Update location error:", err);
+//     return res.status(500).json({
+//       success: false,
+//       message: err.message
+//     });
+//   }
+// };
+
+// new updated controllers/location.controller.js
+
 export const updateUserLocation = async (req, res) => {
   try {
-    const { latitude, longitude } = req.body;
+    let { latitude, longitude } = req.body;
     const userId = req.userId; // JWT middleware se
 
-    if (typeof latitude !== "number" || typeof longitude !== "number") {
+    // Convert to number if string
+    latitude = Number(latitude);
+    longitude = Number(longitude);
+
+    if (isNaN(latitude) || isNaN(longitude)) {
       return res.status(400).json({
         success: false,
         message: "Invalid coordinates"
       });
     }
 
-    // DB me user ki location update karo
-    await User.findByIdAndUpdate(userId, {
-      location: {
-        type: "Point",
-        coordinates: [longitude, latitude]
-      }
-    },{new:true});
+    // User exist karta hai ya nahi — ye check bhi safe hai
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
 
-    // Socket se broadcast karo (agar real-time chahiye)
+    // Update user location in DB
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        location: {
+          type: "Point",
+          coordinates: [longitude, latitude]
+        }
+      },
+      { new: true }
+    );
+
+    // Socket emit (optional)
     const io = req.app.get("io");
     if (io) {
       io.emit("user:location:update", {
@@ -60,6 +120,8 @@ export const updateUserLocation = async (req, res) => {
     });
   }
 };
+
+
 
 
 

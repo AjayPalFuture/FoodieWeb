@@ -40,7 +40,7 @@ export default function socketHandler(io) {
           at: new Date()
         });
         // Optional: update user location in DB as backup
-        // await User.findByIdAndUpdate(assignment.assignedTo, { location: { type: "Point", coordinates: [longitude, latitude] }});
+        await User.findByIdAndUpdate(assignment.assignedTo, { location: { type: "Point", coordinates: [longitude, latitude] }});
       } catch (err) {
         console.error("delivery:location:update error", err);
       }
